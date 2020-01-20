@@ -23,6 +23,13 @@ let Talia = {
     karta15: {type: 8, isFaceUp: false, orderNumber: Math.random()},
     karta16: {type: 8, isFaceUp: false, orderNumber: Math.random()},
 }
+
+let firstCardPick = {card: null, slotid: null} 
+
+let secondCardPick = {card: null, slotid: null}
+
+let paused = false
+
 let faceDown = "https://www.stevensmagic.com/wp-content/uploads/2016/02/jumbocard_bfred-alt1.jpg"
 
 
@@ -46,7 +53,7 @@ let order = [Talia.karta1,  Talia.karta2,  Talia.karta3,
              Talia.karta13, Talia.karta14, Talia.karta15,
              Talia.karta16
             ];
-
+console.log(order)
 
 order.sort(function(a, b) {
     return a.orderNumber - b.orderNumber
@@ -61,16 +68,27 @@ function slotorder(orderId) {
 
 function faceSwap(id) {
     (document.getElementById("slot" + id).addEventListener("click", Swap))
-    function Swap() {
-        order[id-1].isFaceUp = !order[id-1].isFaceUp
-        console.log(order[id-1].isFaceUp)
-        if (order[id-1].isFaceUp) {
-            setImage (id, typeToImage[order[id].type])
-        } else {
-            setImage (id, faceDown)
-            
+    function Swap() { 
+        if (paused == false) {
+            let selectedCard = order[id-1]
+            selectedCard.isFaceUp = !selectedCard.isFaceUp
+            console.log(selectedCard.isFaceUp)
+            if (selectedCard.isFaceUp) {
+                setImage (id, typeToImage[order[id - 1].type])
+                if (firstCardPick.card == null) {
+                    firstCardPick.card = selectedCard
+                    firstCardPick.slotid = id
+                } else { 
+                    secondCardPick.card = selectedCard
+                    secondCardPick.slotid = id
+                }
+                compare()
+            } else {
+                setImage (id, faceDown)
+                
+            } 
         }
-    }
+    } 
 }
 
 function setImage (id, src) {
@@ -87,3 +105,25 @@ for (let i = 0; i < 16; i++) {
     slotorder(i + 1)
 }
 
+function compare() {
+    if (firstCardPick.card !== null && secondCardPick.card !== null) {
+        if (firstCardPick.card.type == secondCardPick.card.type) {
+            console.log("works")
+
+        } else { 
+            
+            let a = function () {
+                firstCardPick.card.isFaceUp = false
+                secondCardPick.card.isFaceUp = false
+                setImage(firstCardPick.slotid,faceDown)
+                setImage(secondCardPick.slotid,faceDown)
+                firstCardPick.card = null
+                secondCardPick.card = null
+                paused = false
+            }
+            paused = true
+            setTimeout(a, 3000)
+        }
+    }
+
+}
