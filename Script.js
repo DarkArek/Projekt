@@ -23,6 +23,9 @@ let Talia = {
     karta15: {type: 8, isFaceUp: false, orderNumber: Math.random()},
     karta16: {type: 8, isFaceUp: false, orderNumber: Math.random()},
 }
+let faceDown = "https://www.stevensmagic.com/wp-content/uploads/2016/02/jumbocard_bfred-alt1.jpg"
+
+
 let typeToImage = {
     1:  "https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Playing_card_club_A.svg/40px-Playing_card_club_A.svg.png",
     2:  "https://upload.wikimedia.org/wikipedia/commons/thumb/2/25/Playing_card_spade_A.svg/40px-Playing_card_spade_A.svg.png",
@@ -33,7 +36,7 @@ let typeToImage = {
     7:  "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dc/Playing_card_heart_K.svg/40px-Playing_card_heart_K.svg.png",
     8:  "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Playing_card_spade_K.svg/40px-Playing_card_spade_K.svg.png",
 };
-// W Tali wartosci karty po kolej to Typ karty , Czy jest odkryta(1) czy zakryta(0), Math.Random ktory odpowiada za losowanie kolejnosci kart
+// W Tali wartosci karty po kolej to Typ karty , Czy jest odkryta(true) czy zakryta(false), Math.Random ktory odpowiada za losowanie kolejnosci kart
 
 
 let order = [Talia.karta1,  Talia.karta2,  Talia.karta3,
@@ -50,37 +53,37 @@ order.sort(function(a, b) {
 });
 // Funkcja na ukladanie kolejnosci od zaleznie mathrandom.
 
+function slotorder(orderId) {
+   setImage(orderId,faceDown)
+}
 
 
 
-document.getElementById("slot1").querySelector("img").setAttribute("src",typeToImage[order[0].type]);
+function faceSwap(id) {
+    (document.getElementById("slot" + id).addEventListener("click", Swap))
+    function Swap() {
+        order[id-1].isFaceUp = !order[id-1].isFaceUp
+        console.log(order[id-1].isFaceUp)
+        if (order[id-1].isFaceUp) {
+            setImage (id, typeToImage[order[id].type])
+        } else {
+            setImage (id, faceDown)
+            
+        }
+    }
+}
 
-document.getElementById("slot2").querySelector("img").setAttribute("src",typeToImage[order[1].type]);
+function setImage (id, src) {
+    document.getElementById("slot" + id).querySelector("img").setAttribute("src",src)
+}
 
-document.getElementById("slot3").querySelector("img").setAttribute("src",typeToImage[order[2].type]);
+for (let i = 0; i < 16; i++) {
+    let id = (i + 1)
+    faceSwap(id)
+}
 
-document.getElementById("slot4").querySelector("img").setAttribute("src",typeToImage[order[3].type]);
+for (let i = 0; i < 16; i++) {
+    
+    slotorder(i + 1)
+}
 
-document.getElementById("slot5").querySelector("img").setAttribute("src",typeToImage[order[4].type]);
-
-document.getElementById("slot6").querySelector("img").setAttribute("src",typeToImage[order[5].type]);
-
-document.getElementById("slot7").querySelector("img").setAttribute("src",typeToImage[order[6].type]);
-
-document.getElementById("slot8").querySelector("img").setAttribute("src",typeToImage[order[7].type]);
-
-document.getElementById("slot9").querySelector("img").setAttribute("src",typeToImage[order[8].type]);
-
-document.getElementById("slot10").querySelector("img").setAttribute("src",typeToImage[order[9].type]);
-
-document.getElementById("slot11").querySelector("img").setAttribute("src",typeToImage[order[10].type]);
-
-document.getElementById("slot12").querySelector("img").setAttribute("src",typeToImage[order[11].type]);
-
-document.getElementById("slot13").querySelector("img").setAttribute("src",typeToImage[order[12].type]);
-
-document.getElementById("slot14").querySelector("img").setAttribute("src",typeToImage[order[13].type]);
-
-document.getElementById("slot15").querySelector("img").setAttribute("src",typeToImage[order[14].type]);
-
-document.getElementById("slot16").querySelector("img").setAttribute("src",typeToImage[order[15].type]);
