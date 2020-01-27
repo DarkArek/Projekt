@@ -1,32 +1,38 @@
 let Talia = {
-    karta1: {type: 1, isFaceUp: false, orderNumber: Math.random()},
-    karta2: {type: 1, isFaceUp: false, orderNumber: Math.random()},
+    karta1: {type: 1, isFaceUp: false, orderNumber: Math.random(),matched: false},
+    karta2: {type: 1, isFaceUp: false, orderNumber: Math.random(),matched: false},
 
-    karta3: {type: 2, isFaceUp: false, orderNumber: Math.random()},
-    karta4: {type: 2, isFaceUp: false, orderNumber: Math.random()},
+    karta3: {type: 2, isFaceUp: false, orderNumber: Math.random(),matched: false},
+    karta4: {type: 2, isFaceUp: false, orderNumber: Math.random(),matched: false},
 
-    karta5: {type: 3, isFaceUp: false, orderNumber: Math.random()},
-    karta6: {type: 3, isFaceUp: false, orderNumber: Math.random()},
+    karta5: {type: 3, isFaceUp: false, orderNumber: Math.random(),matched: false},
+    karta6: {type: 3, isFaceUp: false, orderNumber: Math.random(),matched: false},
 
-    karta7: {type: 4, isFaceUp: false, orderNumber: Math.random()},
-    karta8: {type: 4, isFaceUp: false, orderNumber: Math.random()},
+    karta7: {type: 4, isFaceUp: false, orderNumber: Math.random(),matched: false},
+    karta8: {type: 4, isFaceUp: false, orderNumber: Math.random(),matched: false},
 
-    karta9: {type: 5, isFaceUp: false, orderNumber: Math.random()},
-    karta10: {type: 5, isFaceUp: false, orderNumber: Math.random()},
+    karta9: {type: 5, isFaceUp: false, orderNumber: Math.random(),matched: false},
+    karta10: {type: 5, isFaceUp: false, orderNumber: Math.random(),matched: false},
 
-    karta11: {type: 6, isFaceUp: false, orderNumber: Math.random()},
-    karta12: {type: 6, isFaceUp: false, orderNumber: Math.random()},
+    karta11: {type: 6, isFaceUp: false, orderNumber: Math.random(),matched: false},
+    karta12: {type: 6, isFaceUp: false, orderNumber: Math.random(),matched: false},
 
-    karta13: {type: 7, isFaceUp: false, orderNumber: Math.random()},
-    karta14: {type: 7, isFaceUp: false, orderNumber: Math.random()},
+    karta13: {type: 7, isFaceUp: false, orderNumber: Math.random(),matched: false},
+    karta14: {type: 7, isFaceUp: false, orderNumber: Math.random(),matched: false},
     
-    karta15: {type: 8, isFaceUp: false, orderNumber: Math.random()},
-    karta16: {type: 8, isFaceUp: false, orderNumber: Math.random()},
+    karta15: {type: 8, isFaceUp: false, orderNumber: Math.random(),matched: false},
+    karta16: {type: 8, isFaceUp: false, orderNumber: Math.random(),matched: false},
 }
 
+
+// Talia Kart
+// W Tali wartosci karty po kolej to Typ karty , Czy jest odkryta(true) czy zakryta(false), Math.Random ktory odpowiada za losowanie kolejnosci kart, czy zostala juz dopasowana
 let firstCardPick = {card: null, slotid: null} 
 
 let secondCardPick = {card: null, slotid: null}
+// Pierwszy i drugi wybor kart przez gracza
+
+let liczbaTur = 16
 
 let paused = false
 
@@ -43,7 +49,7 @@ let typeToImage = {
     7:  "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dc/Playing_card_heart_K.svg/40px-Playing_card_heart_K.svg.png",
     8:  "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Playing_card_spade_K.svg/40px-Playing_card_spade_K.svg.png",
 };
-// W Tali wartosci karty po kolej to Typ karty , Czy jest odkryta(true) czy zakryta(false), Math.Random ktory odpowiada za losowanie kolejnosci kart
+
 
 
 let order = [Talia.karta1,  Talia.karta2,  Talia.karta3,
@@ -71,26 +77,30 @@ function faceSwap(id) {
     function Swap() { 
         if (paused == false) {
             let selectedCard = order[id-1]
-            selectedCard.isFaceUp = !selectedCard.isFaceUp
-            console.log(selectedCard.isFaceUp)
-            if (selectedCard.isFaceUp) {
-                setImage (id, typeToImage[order[id - 1].type])
-                if (firstCardPick.card == null) {
-                    firstCardPick.card = selectedCard
-                    firstCardPick.slotid = id
-                } else { 
-                    secondCardPick.card = selectedCard
-                    secondCardPick.slotid = id
-                }
-                compare()
-            } else {
-                setImage (id, faceDown)
+            if (selectedCard.matched == false && liczbaTur > 0) {
+                selectedCard.isFaceUp = !selectedCard.isFaceUp
+                console.log(selectedCard.isFaceUp)
+                if (selectedCard.isFaceUp) {
+                    setImage (id, typeToImage[order[id - 1].type])
+                    if (firstCardPick.card == null) {
+                        firstCardPick.card = selectedCard
+                        firstCardPick.slotid = id
+                        firstCardPick.card.matched = true
+                    } else { 
+                        secondCardPick.card = selectedCard
+                        secondCardPick.slotid = id
+                        secondCardPick.card.matched = true
+                    }
+                    compare()
+                } else {
+                    setImage (id, faceDown)
                 
-            } 
+                } 
+            }
         }
     } 
 }
-
+// Funkcja odpowiadająca za wybor karty / przypisanie ich do pierwszego i drugiego wyboru gracza i ich porownania
 function setImage (id, src) {
     document.getElementById("slot" + id).querySelector("img").setAttribute("src",src)
 }
@@ -98,10 +108,6 @@ function setImage (id, src) {
 for (let i = 0; i < 16; i++) {
     let id = (i + 1)
     faceSwap(id)
-}
-
-for (let i = 0; i < 16; i++) {
-    
     slotorder(i + 1)
 }
 
@@ -109,17 +115,24 @@ function compare() {
     if (firstCardPick.card !== null && secondCardPick.card !== null) {
         if (firstCardPick.card.type == secondCardPick.card.type) {
             console.log("works")
-
+            firstCardPick.card = null
+            secondCardPick.card = null
+            liczbaTur--
+            console.log(liczbaTur)
         } else { 
             
             let a = function () {
                 firstCardPick.card.isFaceUp = false
                 secondCardPick.card.isFaceUp = false
+                firstCardPick.card.matched = false
+                secondCardPick.card.matched = false
                 setImage(firstCardPick.slotid,faceDown)
                 setImage(secondCardPick.slotid,faceDown)
                 firstCardPick.card = null
                 secondCardPick.card = null
                 paused = false
+                liczbaTur--
+            console.log(liczbaTur)
             }
             paused = true
             setTimeout(a, 3000)
@@ -127,3 +140,5 @@ function compare() {
     }
 
 }
+//Funkcja odpowiedzialna za porownanie wyborow gracza
+
