@@ -10,7 +10,7 @@ let firstCardPick = null
 
 let secondCardPick = null
 
-let liczbaTur = 16
+let turnCounter = 16
 
 let paused = false
 
@@ -19,7 +19,7 @@ function faceSwap(i) {
     function Swap() {
         if (paused == false) {
             let selectedCard = order[i]
-            if (selectedCard.matched == false && liczbaTur > 0) {
+            if (selectedCard.matched == false && turnCounter > 0) {
                 selectedCard.turnFaceUp()
                 if (selectedCard.isFaceUp) {
                     if (firstCardPick == null) {
@@ -44,7 +44,8 @@ function compare() {
         if (firstCardPick.type == secondCardPick.type) {
             firstCardPick = null
             secondCardPick = null
-            liczbaTur--
+            turnCounter--
+            updateTurnDisplay()
         } else {
 
             let clearSelectedCards = function () {
@@ -55,7 +56,8 @@ function compare() {
                 firstCardPick = null
                 secondCardPick = null
                 paused = false
-                liczbaTur--
+                turnCounter--
+                updateTurnDisplay()
             }
             paused = true
             setTimeout(clearSelectedCards, 3000)
@@ -74,3 +76,9 @@ function startUp() {
     }, 5000)
 }
 startUp()
+
+let turnDisplay = document.getElementById("turn")
+function updateTurnDisplay() {
+    turnDisplay.textContent = turnCounter
+}
+updateTurnDisplay()
