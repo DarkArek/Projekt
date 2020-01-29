@@ -1,6 +1,22 @@
+class Card {
+    constructor(type) {
+        this.type = type;
+        this.isFaceUp = false;
+        this.matched = false;
+    }
+};
 
-// Talia Kart
-// W Tali wartosci karty po kolej to Typ karty , Czy jest odkryta(true) czy zakryta(false), Math.Random ktory odpowiada za losowanie kolejnosci kart, czy zostala juz dopasowana
+let order = []
+
+for (let i = 0; i < 16; i++) {
+    faceSwap(i)
+    slotorder(i)
+    ordercreate(i)
+}
+console.log(order)
+
+
+
 let firstCardPick = {card: null, slotid: null}
 
 let secondCardPick = {card: null, slotid: null}
@@ -10,65 +26,63 @@ let liczbaTur = 16
 
 let paused = false
 
-let order = [
-    new Card(1),
-    new Card(1),
+shuffle(order)
 
-    new Card(2),
-    new Card(2),
+function shuffle(array) {
+    let m = array.length;
+    let t;
+    let i;
 
-    new Card(3),
-    new Card(3),
+    // While there remain elements to shuffle…
+    while (m > 0) {
 
-    new Card(4),
-    new Card(4),
+      // Pick a remaining element…
+      i = Math.floor(Math.random() * m);
+      m = m - 1;
+      // And swap it with the current element.
+      t = array[m];
+      array[m] = array[i];
+      array[i] = t;
+    }
 
-    new Card(5),
-    new Card(5),
-
-    new Card(6),
-    new Card(6),
-
-    new Card(7),
-    new Card(7),
-
-    new Card(8),
-    new Card(8)];
-console.log(order)
-
-order.sort(function(a, b) {
-    return a.orderNumber - b.orderNumber
-});
-// Funkcja na ukladanie kolejnosci od zaleznie mathrandom.
+    return array;
+  }
 
 function slotorder(orderId) {
    setImage(orderId,faceDown)
 }
 
+function ordercreate(i) {
+    if (i < 8) {
+        order.push(new Card(i))
+    } else {
+        order.push(new Card(i - 8))
+    }
+}
 
 
-function faceSwap(id) {
-    (document.getElementById("slot" + id).addEventListener("click", Swap))
+function faceSwap(i) {
+    (document.getElementById("slot" + i).addEventListener("click", Swap))
     function Swap() {
         if (paused == false) {
-            let selectedCard = order[id]
+            let selectedCard = order[i]
             if (selectedCard.matched == false && liczbaTur > 0) {
                 selectedCard.isFaceUp = !selectedCard.isFaceUp
                 console.log(selectedCard.isFaceUp)
                 if (selectedCard.isFaceUp) {
-                    setImage (id, typeToImage[order[id].type])
+                    setImage (i, typeToImage[order[i].type])
                     if (firstCardPick.card == null) {
                         firstCardPick.card = selectedCard
-                        firstCardPick.slotid = id
+                        firstCardPick.slotid = i
                         firstCardPick.card.matched = true
                     } else {
                         secondCardPick.card = selectedCard
-                        secondCardPick.slotid = id
+                        secondCardPick.slotid = i
                         secondCardPick.card.matched = true
                     }
                     compare()
                 } else {
-                    setImage (id, faceDown)
+                    setImage (i, faceDown)
 
                 }
             }
@@ -80,11 +94,6 @@ function setImage (id, src) {
     document.getElementById("slot" + id).querySelector("img").setAttribute("src",src)
 }
 
-for (let i = 0; i < 16; i++) {
-    let id = (i)
-    faceSwap(id)
-    slotorder(i)
-}
 
 function compare() {
     if (firstCardPick.card !== null && secondCardPick.card !== null) {
