@@ -1,6 +1,5 @@
 let faceDown = "https://www.stevensmagic.com/wp-content/uploads/2016/02/jumbocard_bfred-alt1.jpg"
 
-
 let typeToImage = {
     1:  "https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Playing_card_club_A.svg/40px-Playing_card_club_A.svg.png",
     2:  "https://upload.wikimedia.org/wikipedia/commons/thumb/2/25/Playing_card_spade_A.svg/40px-Playing_card_spade_A.svg.png",
