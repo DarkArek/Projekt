@@ -7,47 +7,58 @@
             display: grid;
             grid-template-columns: auto auto auto auto;
             padding: 10px;
-        };
-        .karta {
+            text-align: center;
+        }
+        .card {
             border: 10px solid rgba(0,0,0,0.8);
             text-align: center;
-        };
-   
+
+        }
+        .card img {
+            height: 200px;
+            width: 175px;
+        }
+        #turn {
+            font-size: 64px;
+        }
     </style>
 
 </head>
 
 <body>
-    
+
     <p>
         <font size="16">
-             Number of turns: <div class="tury"></div>
+             Number of turns: <div><p id="turn"></p></div>
         </font>
-        
+
     </p>
-    
+
     <div class="grid-container">
-        <div class="karta"><p id="slot1"><img/></p></div>
-        <div class="karta"><p id="slot2"><img/>slot2</p></div>
-        <div class="karta"><p id="slot3"><img/>slot3</p></div>
-        <div class="karta"><p id="slot4"><img/>slot4</p></div>
-        <div class="karta"><p id="slot5"><img/>slot5</p></div>
-        <div class="karta"><p id="slot6"><img/>slot6</p></div>
-        <div class="karta"><p id="slot7"><img/>slot7</p></div>
-        <div class="karta"><p id="slot8"><img/>slot8</p></div>
-        <div class="karta"><p id="slot9"><img/>slot9</p></div>
-        <div class="karta"><p id="slot10"><img/>slot10</p></div>
-        <div class="karta"><p id="slot11"><img/>slot11</p></div>
-        <div class="karta"><p id="slot12"><img/>slot12</p></div>
-        <div class="karta"><p id="slot13"><img/>slot13</p></div>
-        <div class="karta"><p id="slot14"><img/>slot14</p></div>
-        <div class="karta"><p id="slot15"><img/>slot15</p></div>
-        <div class="karta"><p id="slot16"><img/>slot16</p></div>
+        <div class="card"><p id="slot0"><img/></p></div>
+        <div class="card"><p id="slot1"><img/></p></div>
+        <div class="card"><p id="slot2"><img/></p></div>
+        <div class="card"><p id="slot3"><img/></p></div>
+        <div class="card"><p id="slot4"><img/></p></div>
+        <div class="card"><p id="slot5"><img/></p></div>
+        <div class="card"><p id="slot6"><img/></p></div>
+        <div class="card"><p id="slot7"><img/></p></div>
+        <div class="card"><p id="slot8"><img/></p></div>
+        <div class="card"><p id="slot9"><img/></p></div>
+        <div class="card"><p id="slot10"><img/></p></div>
+        <div class="card"><p id="slot11"><img/></p></div>
+        <div class="card"><p id="slot12"><img/></p></div>
+        <div class="card"><p id="slot13"><img/></p></div>
+        <div class="card"><p id="slot14"><img/></p></div>
+        <div class="card"><p id="slot15"><img/></p></div>
+        <script src="Utilities.js"></script>
+        <script src="Card.js"></script>
+        <script src="Constants.js"></script>
         <script src="script.js"></script>
         </div>
-       
 
-       
+
+
 
 </body>
 
