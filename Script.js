@@ -1,6 +1,4 @@
-let order = shuffle([0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7]).map(function(type,index){
-    return new Card(type,index)
-})
+let order = shuffle([0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7]).map((type,index) => new Card(type, index));
 
 for (let i = 0; i < 16; i++) {
     faceSwap(i)
@@ -10,34 +8,27 @@ let firstCardPick = null
 
 let secondCardPick = null
 
-let turnCounter = 16
+let turnCounter = 20
 
 let paused = false
 
 function faceSwap(i) {
     (document.getElementById("slot" + i).addEventListener("click", Swap))
     function Swap() {
-        if (paused == false) {
-            let selectedCard = order[i]
-            if (selectedCard.matched == false && turnCounter > 0) {
-                selectedCard.turnFaceUp()
-                if (selectedCard.isFaceUp) {
-                    if (firstCardPick == null) {
-                        firstCardPick = selectedCard
-                        firstCardPick.matched = true
-                    } else {
-                        secondCardPick = selectedCard
-                        secondCardPick.matched = true
-                    }
-                    compare()
-                } else {
-                    selectedCard.turnFaceDown()
-
-                }
-            }
+        let selectedCard = order[i]
+        if (paused == true || selectedCard.isFaceUp == true || turnCounter == 0) {
+            return;
         }
+        selectedCard.turnFaceUp()
+        if (firstCardPick == null) {
+            firstCardPick = selectedCard
+        } else {
+            secondCardPick = selectedCard
+        }
+        compare()
     }
 }
+
 
 function compare() {
     if (firstCardPick !== null && secondCardPick !== null) {
@@ -49,8 +40,6 @@ function compare() {
         } else {
 
             let clearSelectedCards = function () {
-                firstCardPick.matched = false
-                secondCardPick.matched = false
                 firstCardPick.turnFaceDown()
                 secondCardPick.turnFaceDown()
                 firstCardPick = null
@@ -60,7 +49,7 @@ function compare() {
                 updateTurnDisplay()
             }
             paused = true
-            setTimeout(clearSelectedCards, 3000)
+            setTimeout(clearSelectedCards, 1500)
         }
     }
 

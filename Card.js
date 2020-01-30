@@ -2,7 +2,6 @@ class Card {
     constructor(type,index) {
         this.type = type;
         this.isFaceUp = false;
-        this.matched = false;
         this.id = index
         this.turnFaceUp()
     }
